@@ -1,8 +1,8 @@
 # INFO --------------------------------------------------------------------
 
-# Fonction pour regrouper les sequences obtenues a la fois par locus et par
-# groupe taxonomique. Utiliser merge_fasta_EXTERNE.R pour faire rouler.
-#
+# Fonction pour regrouper les sequences d'un dossier a la fois par locus et par
+# groupe taxonomique. 
+
 # Audrey Bourret
 # novembre 2018  
 
