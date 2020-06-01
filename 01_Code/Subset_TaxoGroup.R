@@ -1,6 +1,8 @@
 # Description -------------------------------------------------------------
 
-# Code pour créer des jeux de données pour tester les amorces
+# Code pour créer des alignements de séquence et trouver la position 
+# des amorces (préalable au test des amorces
+#)
 # Audrey Bourret
 # 2020-05-27
 
@@ -44,9 +46,9 @@ files.seq[1:6]
 files.seq.wPATH <- c(list.files("00_Data/00_REFSequences/", full.names = T))
 files.seq.wPATH[1:6]
 
-# Fonction pour merger les sequences
+# Fonction pour merger les sequences a loader
 source(file.path("01_Code/00_Functions/fct_merge_sequences.R"))
-       
+     
 
 
 # Merge sequences ---------------------------------------------------------
@@ -59,42 +61,58 @@ merge_sequences(LOCUS = c("ADNmt", "mtDNA", LOCUS),
                 FN = paste(LOCUS, "cut", sep ="_"),
                 BUFFER = 0, 
                 REF = SP.target,
-                #REF = REF.cibles %>% filter(Groupe == "Envahissante"), 
                 LAB = Primers, 
-                KEEP =  FALSE, # Pour garder ceux qui fit pas
+                KEEP =  FALSE, # Pour garder ceux qui fit pas ou non
                 NMIS = NMIS,
                 verbose = FALSE)
 
 
 
 
+# Do the aligment ---------------------------------------------------------
+
+# Check the name of the aligment
+
 list.files("./00_Data/01_AlignSequences/COI/")
 
 
 file <- file.path("./00_Data/01_AlignSequences/COI/",
-               "Echinodermata_COI_cut.fasta")
+                  "Echinodermata_COI_cut.fasta")
+file
 
-
-#primer.seq <- DNAstrin
+# Upload the alignment as a DNAStringSet object
 
 DNA <- readDNAStringSet(file)
-
 DNA
 
-
+# Check the length distribution
 hist(DNA@ranges@width)
 
-
+# Find a name for the new aligment
 
 new.file <- str_replace(file, ".fasta", "_align.fasta") 
 
-res <- msa(DNA, method = "ClustalW")
+# Do the alignment
 
-str(res)
+alig.res <- msa(DNA, method = "ClustalW")
 
-DNA.alig <- res@unmasked
+# To see the entire range
+print(alig.res, show="complete")
+
+# Then transform it as a DNAStringSet object and save it
+
+DNA.alig <- alig.res@unmasked
+DNA.alig
 
 
+
+writeXStringSet(DNA.alig, file.path(new.file), 
+                append=FALSE, format="fasta")
+
+
+start(DNA.alig)
+
+# Find primer position ----------------------------------------------------
 
 # Search for F primers
 
@@ -111,7 +129,7 @@ for(x in Primers$Sequence.F){
 
 # This is the End position
 # Start position : End - lenght + 1
-
+# Write down this information in the Primer spreadsheet
 
 # Search for R primers
 
@@ -128,6 +146,6 @@ for(x in Primers$Sequence.R){
 
 # This is the End position
 # Start position : End - lenght + 1
+# Write down this information in the Primer spreadsheet
 
-
-# So this information need to be add in your file
+# And its the end!
