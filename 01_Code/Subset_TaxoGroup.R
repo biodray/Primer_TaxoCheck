@@ -1,8 +1,7 @@
 # Description -------------------------------------------------------------
 
 # Code pour créer des alignements de séquence et trouver la position 
-# des amorces (préalable au test des amorces
-#)
+# des amorces (préalable à certains tests des amorces)
 # Audrey Bourret
 # 2020-05-27
 
@@ -112,6 +111,22 @@ writeXStringSet(DNA.alig, file.path(new.file),
 
 start(DNA.alig)
 
+
+# Rename labels in aligment -----------------------------------------------
+
+DNA.alig <- readDNAStringSet(new.file)
+new.name <- paste(sapply(str_split(names(DNA.alig), pattern = " "), "[",2),
+                  sapply(str_split(names(DNA.alig), pattern = " "), "[",3),
+                  sep = "_")
+
+new.name
+names(DNA.alig) <- new.name
+
+DNA.alig
+
+writeXStringSet(DNA.alig, file.path(new.file) %>% str_replace("cut_align", "cut_align_rename"), 
+                append=FALSE, format="fasta")
+
 # Find primer position ----------------------------------------------------
 
 # Search for F primers
@@ -149,3 +164,12 @@ for(x in Primers$Sequence.R){
 # Write down this information in the Primer spreadsheet
 
 # And its the end!
+
+
+# Graphical representation ------------------------------------------------
+
+
+# Try to do something to reproduce what genious is doing ...
+
+
+
