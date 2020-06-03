@@ -7,28 +7,11 @@
 
 # Packages ----------------------------------------------------------------
 
-#library("ape")
-#library("dplyr")
+library("tidyverse")
 library("ggplot2")
-
 library("readxl")
-#library(rentrez)
-#library(devtools)
-#install_github("mvesuviusc/primertree", ref = "fixNcbiRateLimitIssue")
 
 library("primerTree")
-#library("PrimerMiner")
-library("tidyverse")
-
-#install.packages("spider")
-#library(spider)
-
-
-#if (!requireNamespace("BiocManager", quietly = TRUE))
-#  install.packages("BiocManager")
-#BiocManager::install("msa")
-#library(msa)
-
 
 # Modification of a PrimerTree function to include a path to clustalo
 source("01_Code/00_Functions/fct_calc_rank_dist_ave.R")
