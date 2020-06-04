@@ -169,7 +169,57 @@ for(x in Primers$Sequence.R){
 # Graphical representation ------------------------------------------------
 
 
+Primers
+
 # Try to do something to reproduce what genious is doing ...
 
+test <- Primers %>% select(-c(F.Stop, R.Stop)) %>% 
+            pivot_longer(c(Sequence.F, Sequence.R), names_to = "Direction", values_to = "Sequence") %>% 
+            pivot_longer(c(F.Start, R.Start), names_to = "temp", values_to = "Position") %>% 
+            mutate(Direction = Direction %>% str_remove("Sequence."),
+                   temp = temp %>% str_remove(".Start")) %>% 
+            filter(Direction == temp) %>% 
+            select(-temp)
+  
 
+test
+
+# loop to create a table by nucleotide
+
+res <- data.frame(Primers = character(),
+                  Locus = character(),
+                  Direction = character(),
+                  Group = character(),
+                  Position = numeric(),
+                  Nuc = character(),
+                  stringsAsFactors = F)
+
+res
+
+for(x in 1:nrow(test)){
+  
+  for(y in 1:str_length(test$Sequence[x])){
+    nuc <- str_sub(test$Sequence[x], y, y)
+    pos = test$Position[x] + y - 1
+    vec = data.frame(Primers = test$Primer[x],
+                     Locus = test$Locus[x],
+                     Direction = test$Direction[x],
+                     Group = test$Group[x],
+                     Position = pos,
+                     Nuc = nuc,
+                     stringsAsFactors = F)
+      
+      c(test$Primer[x], test$Locus[x], test$Direction[x],test$Group[x])
+    res = rbind(res, vec) 
+  }
+
+  
+}
+
+res
+
+res %>% ggplot(aes(x=Position, y = Primers, fill = Nuc)) +
+  geom_tile() +
+  theme_bw()
+  
 
