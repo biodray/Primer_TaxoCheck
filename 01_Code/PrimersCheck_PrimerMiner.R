@@ -116,6 +116,8 @@ for(x in unique(Primers$Group)){
 }
 
 
+PM.Output
+
 
 write.csv(PM.Output, "./02_Results/02_PrimerMiner/PrimerMiner_results_COI.csv",  row.names = FALSE)
 
