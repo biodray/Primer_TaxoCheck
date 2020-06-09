@@ -13,8 +13,24 @@ PrimerTree is a package developped by Jim Hester (https://github.com/jimhester/p
 
 ### How to run PrimerTree
 
+1. Download clustal-omega : http://www.clustal.org/omega/#Download, and note the path to the executable file, you will need this information.
 
-You should get clustal-omega : http://www.clustal.org/omega/#Download
+2. If you want it to run faster, an NCBI API key can be added, see https://ncbiinsights.ncbi.nlm.nih.gov/2017/11/02/new-api-keys-for-the-e-utilities/
+ to get one.
+
+3. Open the PrimersCheck_PrimerTree.R script update the *Path* and *Data* section.
+
+You will need the "00_Data/Primers.xlsx" excel sheet, with Primer, Group, Sequence.F, Sequence.R columns filled. 
+
+
+### Note
+
+The first part of PrimerTree is to use NCBI Primer Blast (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). The database used is nr, without environmental data, and Organism is " ". Note that the maximum primer length is 36.
+
+Default parameters:
+
+num_permutations = 25 to limit the number of tested degenerated primer paires
+
 
 
 ## PrimerMiner
