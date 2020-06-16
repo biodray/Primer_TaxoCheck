@@ -42,7 +42,7 @@ calc_rank_dist_ave <- function(x, ranks = common_ranks, exec = "clustalo") {
   # Align and calculate pairwise distances and convert dists to dataframe
   align <- clustalo(seqs, exec = exec)
   dists <- as.data.frame(as.matrix(dist.dna(align, model = "N", pairwise.deletion = T)))
-  dists$gi <- row.names(dists)
+  dists$gi <- row.names(dists) %>% str_remove("X")
   
   # Melt the dists dataframe so I can drop any distance that isn't within the (rank)
   melted <- melt(dists, id = "gi", variable.name = "gi2", value.name = "dist")
